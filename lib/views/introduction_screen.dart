@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';  
+import 'package:news_hive/views/login_screen.dart';
 import 'package:news_hive/views/utils/helper.dart';
 
 class IntroductionScreen extends StatefulWidget {
@@ -34,6 +34,20 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
+  void nextPage() {
+    if (_currentPage < pageList.length - 1) {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+      );
+    }
+  }
+
   @override
   void initState() {
     _pageController.addListener(() {
@@ -50,6 +64,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
       backgroundColor: cWhite,
       body: SafeArea(
         child: Stack(
+          alignment: AlignmentDirectional.topEnd,
           children: [
             PageView.builder(
               controller: _pageController,
@@ -66,13 +81,107 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                       vsLarge,
                       Text(
                         pageList[index]['title'],
-                        style: headline3.copyWith(
+                        style: headline4.copyWith(
                           color: cPrimary,
                           fontWeight: bold,
                         ),
                       ),
                       vsSmall,
                       Text(pageList[index]['subtitle'], style: subtitle1),
+                      Spacer(),
+                      if (_currentPage == pageList.length - 1)
+                        ElevatedButton(
+                          onPressed: nextPage,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: cPrimary,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 50,
+                              vertical: 15,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: const Text(
+                            "Get Started",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                        )
+                      else
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const LoginPage(),
+                                    ),
+                                ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: cTextBlue,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 50,
+                                  vertical: 15,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                "Skip",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    ),
+                                ),
+                            ),
+                            /*
+                            TextButton(
+                              onPressed:
+                                  () => Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const LoginPage(),
+                                    ),
+                                  ),
+                              child: const Text(
+                                  "Skip",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    ),
+                                  ),
+                            ),
+                            */
+                            ElevatedButton(
+                              onPressed: nextPage,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: cPrimary,
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 50,
+                                  vertical: 15,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              child: const Text(
+                                "Next",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    ),
+                                ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 );
